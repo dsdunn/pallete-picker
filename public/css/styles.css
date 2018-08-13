@@ -1,0 +1,31 @@
+.title {
+  text-align: center;
+}
+
+.current-pallete {
+  display: flex;
+  padding: 5%;
+}
+
+.color-square-big {
+  text-align: center;
+  margin: auto;
+  background: gray;
+  width: 14%;
+  height: 10vh;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.generate {
+  width: 20%;
+  margin: 3%;
+}
+
+.pallete-form {
+  margin: 3%;
+}

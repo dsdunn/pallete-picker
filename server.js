@@ -17,6 +17,19 @@ app.locals.projects = [
   } 
   ];
 
+app.locals.palletes = {
+  "pallete 1" : {
+    "name": "pallete 1",
+    "project": "Awesome Project 1",
+    "colors": ["#000", "#111", "#222", "#333", "#444"]
+  },
+  'pallete 2' : {
+    "name": "pallete 2",
+    "project":  "Awesome Project 1",
+    "colors": ["#333", "#444", "#555", "#666", "#aaa"]
+  }
+}
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));

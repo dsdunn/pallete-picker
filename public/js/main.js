@@ -3,6 +3,7 @@ $().ready(generateColors);
 let currentColors = [];
 
 $('.generate').click(generateColors);
+$('.pallete-form').submit(savePallete);
 
 function generateColors() {
   $('.color-square-big').each(function() {
@@ -12,4 +13,21 @@ function generateColors() {
     currentColors.push(color);
   })
 }
+
+function savePallete(event) {
+  let project = $('[name="project-select"]').val();
+  event.preventDefault();
+  let name = $('[name="pallete-name"]').val();
+  let id = Date.now();
+  let pallete = { id, project, name, colors: currentColors };
+  fetch('http://localhost:3000/projects', {
+    method: 'POST',
+    body: JSON.stringify(pallete),
+    headers: {
+      'Content-Type': 'application/json'
+      }
+    }).then(response => response.json())
+      .then(result => console.log(result))
+      .catch(error => console.log(error));
+  }
 

@@ -1,11 +1,12 @@
-// $('.generate').click(() => {
-//   console.log('shit')}
-//   );
+$().ready(generateColors);
 
+function generateColors() {
+  for (let i=1; i < 6; i++) {
+    let id = "#color" + i;
+    let color = Math.floor(Math.random()*16777215).toString(16);
+    $(id).css('background-color', '#'+color)
+    $(id + '  .color-code').text(color)
+  }
+}
 
-console.log('whooo')
-
-
-// document.querySelector('.generate').on('click', () => {
-//   console.log('superduper')
-// })
+$('.generate').click(generateColors);

@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/dsdunn/pallete-picker#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "g": "^2.0.1",
+    "nodemon": "^1.18.3"
   }
 }

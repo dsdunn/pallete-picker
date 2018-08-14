@@ -1,6 +1,6 @@
 $().ready(() => {
   generateColors(); 
-  populateProjects();
+  getProjects();
 });
 
 let currentColors = [];
@@ -13,7 +13,7 @@ function generateColors() {
     let color = Math.floor(Math.random()*16777215).toString(16);
     $(this).css('background-color', '#'+color)
     $(this).find('.color-code').text(color)
-    currentColors.push(color);
+    currentColors.push('#' + color);
   })
 }
 
@@ -23,45 +23,50 @@ function savePallete(event) {
   let palleteName = $('[name="pallete-name"]').val();
   let pallete = { 
     projectName,
-    palletName, 
+    palleteName, 
     colors: currentColors };
-  fetch('http://localhost:3000/projects', {
+  fetch('http://localhost:3000/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify(pallete),
     headers: {
       'Content-Type': 'application/json'
     }
-  }).then(response => response.json())
-      .then(result => console.log(result))
+    }).then(response => response.json())
+      .then(result => {
+        console.log(result)
+        populateProjects(result)})
       .catch(error => console.log(error));
+
 }
 
-function populateProjects() {
-  console.log('ok')
-  fetch('http://localhost:3000/projects')
+function getProjects() {
+  fetch('http://localhost:3000/api/v1/projects')
     .then(response => response.json())
-    .then(result => {
-      result.forEach(project => {
-        let { name, palletes } = project;
-        console.log(palletes);
-        let article = `
-          <article class='project'>
-            <h3 class='project-name'>${name}</h3>
-            <div class='mini-pallete'>
-            ${createSmallPalletes(palletes)}
-              <img class='delete-button'/>
-            </div>
-          </article>
-        `
-        $('.project-section').prepend(article)
-      })
-    })
+    .then(result => populateProjects(result))
+    .catch(error => console.log(error));
+}
+
+function populateProjects(projects){
+  $('.project-section').html('');
+  projects.forEach(project => {
+    let { name, palletes } = project;
+    let article = `
+      <article class='project'>
+        <h3 class='project-name'>${name}</h3>
+        <div class='mini-pallete'>
+        ${createSmallPalletes(palletes)}
+          <img class='delete-button'/>
+        </div>
+      </article>
+    `
+    $('.project-section').prepend(article)
+  })
 }
 
 function createSmallPalletes(arr) {
   return arr.map(pallete => {
     let {name, colors} = pallete;
-    console.log(colors[0])
+    console.log(pallete)
     return(
       `
         <p class='small-pallete-name'>${name}</p>

@@ -5,7 +5,7 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Pallete Picker';
 app.locals.projects = [
-  {"name": "best project",
+  {"name": "Awesome Project 1",
   "id": "202020",
   "palletes": 
     [{ "name": "pallete 1",
@@ -21,13 +21,23 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
 
-app.get('/projects', (request, response) => {
+app.get('/api/v1/projects', (request, response) => {
   return response.status(200).json(app.locals.projects);
 })
 
-app.post('/projects', (request, response) => {
+app.post('/api/v1/projects', (request, response) => {
   const newPallete = request.body;
-  if (app.locals.projects.find(project => project.name === newPallete)
+  app.locals.projects.forEach(project => {
+    if (project.name === newPallete.projectName) {
+      project.palletes.push({"name": newPallete.palleteName, "colors": newPallete.colors}); 
+    }
+    // app.locals.projects.push({
+    //   "name": newPallete.projectName, 
+    //   "id": Date.now().toString(),
+    //   "palletes": [{"name": newPallete.palleteName, "colors": newPallete.colors}]
+    // })
+    // }
+  })
   return response.json(app.locals.projects);
 })
 
@@ -39,3 +49,13 @@ app.delete('/projects', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 })
+
+
+
+
+
+
+
+
+
+

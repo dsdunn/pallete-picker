@@ -1,5 +1,10 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .title {
   text-align: center;
+  font-family: 'Sawarabi Mincho', sans-serif;
 }
 
 .current-pallete {
@@ -13,6 +18,15 @@
   width: 20%;
   height: 50vh;
 }
+
+.color-square-small {
+  color:white;
+  display: inline-block;
+  height: 4em;
+  width: 4em;
+}
+
+
 
 .controls {
   display: flex;

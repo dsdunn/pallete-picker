@@ -18,11 +18,13 @@ function generateColors() {
 }
 
 function savePallete(event) {
-  let project = $('[name="project-select"]').val();
+  let projectName = $('[name="project-select"]').val();
   event.preventDefault();
-  let name = $('[name="pallete-name"]').val();
-  let id = Date.now();
-  let pallete = { id, project, name, colors: currentColors };
+  let palleteName = $('[name="pallete-name"]').val();
+  let pallete = { 
+    projectName,
+    palletName, 
+    colors: currentColors };
   fetch('http://localhost:3000/projects', {
     method: 'POST',
     body: JSON.stringify(pallete),
@@ -38,5 +40,48 @@ function populateProjects() {
   console.log('ok')
   fetch('http://localhost:3000/projects')
     .then(response => response.json())
-    .then(result => console.log(result))
+    .then(result => {
+      result.forEach(project => {
+        let { name, palletes } = project;
+        console.log(palletes);
+        let article = `
+          <article class='project'>
+            <h3 class='project-name'>${name}</h3>
+            <div class='mini-pallete'>
+            ${createSmallPalletes(palletes)}
+              <img class='delete-button'/>
+            </div>
+          </article>
+        `
+        $('.project-section').prepend(article)
+      })
+    })
 }
+
+function createSmallPalletes(arr) {
+  return arr.map(pallete => {
+    let {name, colors} = pallete;
+    console.log(colors[0])
+    return(
+      `
+        <p class='small-pallete-name'>${name}</p>
+        <div class='color-square-small' style='background-color:${colors[0]}'></div>
+        <div class='color-square-small' style='background-color:${colors[1]}'></div>
+        <div class='color-square-small' style='background-color:${colors[2]}'></div>
+        <div class='color-square-small' style='background-color:${colors[3]}'></div>
+        <div class='color-square-small' style='background-color:${colors[4]}'></div>
+      `
+    )
+  })
+}
+
+
+
+
+
+
+
+
+
+
+

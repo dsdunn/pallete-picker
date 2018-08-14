@@ -26,8 +26,8 @@ app.get('/projects', (request, response) => {
 })
 
 app.post('/projects', (request, response) => {
-  const newProject = request.body;
-  app.locals.projects.push(newProject);
+  const newPallete = request.body;
+  if (app.locals.projects.find(project => project.name === newPallete)
   return response.json(app.locals.projects);
 })
 

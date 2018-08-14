@@ -1,21 +1,31 @@
 $().ready(() => {
-  generateColors(); 
+  updateColors(); 
   getProjects();
 });
 
 let currentColors = [];
 
-$('.generate').click(generateColors);
+$('.generate').click(updateColors);
 $('.pallete-form').submit(savePallete);
 
-function generateColors() {
+function updateColors() {
   currentColors = [];
   $('.color-square-big').each(function() {
-    let color = Math.floor(Math.random()*16777215).toString(16);
-    $(this).css('background-color', '#'+ color)
+    let color = generateColor();
+    $(this).css('background-color', color)
     $(this).find('.color-code').text(color)
-    currentColors.push('#' + color);
+    currentColors.push(color);
   })
+}
+
+function generateColor() {
+  const nums = '0123456789abcdef';
+  let color = ['#'];
+  for(let i = 0; i < 6; i++) {
+    let index = Math.floor(Math.random() * 15);
+    color.push(nums[index]);
+  }
+  return color.join('');
 }
 
 function savePallete(event) {
@@ -40,14 +50,6 @@ function savePallete(event) {
 
 }
 
-function generateColor() {
-  const nums = '0123456789abcdef';
-  let color = [];
-  for(let i = 0; i < 6; i++) {
-    let index = Math.floor(Math.random() * 15);
-    return color.push('#' + nums[index]).join('');
-  }
-}
 
 function getProjects() {
   fetch('http://localhost:3000/api/v1/projects')

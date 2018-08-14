@@ -1,4 +1,7 @@
-$().ready(generateColors);
+$().ready(() => {
+  generateColors(); 
+  populateProjects();
+});
 
 let currentColors = [];
 
@@ -25,9 +28,15 @@ function savePallete(event) {
     body: JSON.stringify(pallete),
     headers: {
       'Content-Type': 'application/json'
-      }
-    }).then(response => response.json())
+    }
+  }).then(response => response.json())
       .then(result => console.log(result))
       .catch(error => console.log(error));
-  }
+}
 
+function populateProjects() {
+  console.log('ok')
+  fetch('http://localhost:3000/projects')
+    .then(response => response.json())
+    .then(result => console.log(result))
+}

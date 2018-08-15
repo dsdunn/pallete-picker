@@ -33,6 +33,19 @@ app.get('/api/v1/palletes/:id', (request, response) => {
   return response.status(200).json(Object.values(app.locals.palletes).filter(pallete => pallete.project === id))
 })
 
+app.post('/api/v1/palletes', (request, response) => {
+  const pallete = request.body;
+  if (!app.locals.palletes[pallete.name]) {  
+    app.locals.palletes[pallete.name] = pallete;
+    app.locals.projects.forEach(project => {
+      if (project.name === pallete.projectName) {
+        project.palletes = [...project.palletes, pallete.name];
+      }
+    });
+  }
+  response.status(200).json(app.locals.projects);
+})
+
 app.get('/api/v1/projects', (request, response) => {
   return response.status(200).json(app.locals.projects);
 })

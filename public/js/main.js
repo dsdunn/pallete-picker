@@ -29,15 +29,15 @@ function generateColor() {
 }
 
 function savePallete(event) {
-  let projectName = $('[name="project-select"]').val();
   event.preventDefault();
-  let palleteName = $('[name="pallete-name"]').val();
+  let projectName = $('[name="project-select"]').val();
+  let name = $('[name="pallete-name"]').val();
   let pallete = { 
     projectName,
-    palleteName, 
+    name, 
     colors: currentColors };
 
-  fetch('http://localhost:3000/api/v1/projects', {
+  fetch('http://localhost:3000/api/v1/palletes', {
     method: 'POST',
     body: JSON.stringify(pallete),
     headers: {
@@ -48,7 +48,6 @@ function savePallete(event) {
       .catch(error => console.log(error));
 }
 
-
 function getProjects() {
   fetch('http://localhost:3000/api/v1/projects')
     .then(response => response.json())
@@ -57,6 +56,7 @@ function getProjects() {
 }
 
 function populateProjects(projects){
+  console.log(projects)
   $('.project-section').html('');
   projects.forEach(project => {
     getPalletes(project).then( palletes => {

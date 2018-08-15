@@ -34,8 +34,20 @@ app.use(bodyParser.urlencoded({extended: true }));
 
 app.get('/api/v1/palletes/:id', (request, response) => {
   const { id } = request.params;
-  return response.status(200).json(Object.values(app.locals.palletes).filter(pallete => pallete.project === id))
-})
+  database('palletes').where('project_id', id).select()
+  .then(palletes => {
+    if(palletes.length) {
+      response.status(200).json(palletes);
+    } else {
+      response.status(404).json({
+        error: `Could not find palette with id ${id}`
+      });
+    }
+  })
+  .catch(error => {
+    resonse.status(500).json({ error });
+  })
+});
 
 app.post('/api/v1/palletes', (request, response) => {
   const pallete = request.body;
@@ -68,7 +80,6 @@ app.post('/api/v1/projects', (request, response) => {
       return response.status(422).send({error: `Expected format: {name: <STRING> }. You're missing a "${requiredParameter}" property`});
     }
   }
-
   database('projects').insert(project, 'id')
     .then(project => {
       response.status(201).json({id: project[0] })

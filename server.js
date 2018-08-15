@@ -8,25 +8,25 @@ const database = require('knex')(configuration);
 
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Pallete Picker';
-app.locals.projects = [
-  {"name": "1",
-  "id": "202020",
-  "palletes": 
-    ["pallete 1", "pallete 2"]
-  }];
+// app.locals.projects = [
+//   {"name": "1",
+//   "id": "202020",
+//   "palletes": 
+//     ["pallete 1", "pallete 2"]
+//   }];
 
-app.locals.palletes = {
-  "pallete 1" : {
-    "name": "pallete 1",
-    "project": "1",
-    "colors": ["#000", "#111", "#222", "#333", "#444"]
-  },
-  'pallete 2' : {
-    "name": "pallete 2",
-    "project":  "1",
-    "colors": ["#333", "#444", "#555", "#666", "#aaa"]
-  }
-}
+// app.locals.palletes = {
+//   "pallete 1" : {
+//     "name": "pallete 1",
+//     "project": "1",
+//     "colors": ["#000", "#111", "#222", "#333", "#444"]
+//   },
+//   'pallete 2' : {
+//     "name": "pallete 2",
+//     "project":  "1",
+//     "colors": ["#333", "#444", "#555", "#666", "#aaa"]
+//   }
+// }
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -50,10 +50,6 @@ app.post('/api/v1/palletes', (request, response) => {
   response.status(200).json(app.locals.projects);
 })
 
-// app.get('/api/v1/projects', (request, response) => {
-//   return response.status(200).json(app.locals.projects);
-// })
-
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
     .then((projects) => {
@@ -65,19 +61,21 @@ app.get('/api/v1/projects', (request, response) => {
 });
 
 app.post('/api/v1/projects', (request, response) => {
-  const newPallete = request.body;
-  app.locals.projects.forEach(project => {
-    if (project.name === newPallete.projectName) {
-      project.palletes.push({"name": newPallete.palleteName, "colors": newPallete.colors}); 
+  const project = request.body;
+
+  for (let requiredParameter of ['name']) {
+    if (!project[requiredParameter]) {
+      return response.status(422).send({error: `Expected format: {name: <STRING> }. You're missing a "${requiredParameter}" property`});
     }
-    // app.locals.projects.push({
-    //   "name": newPallete.projectName, 
-    //   "id": Date.now().toString(),
-    //   "palletes": [{"name": newPallete.palleteName, "colors": newPallete.colors}]
-    // })
-    // }
-  })
-  return response.json(app.locals.projects);
+  }
+
+  database('projects').insert(project, 'id')
+    .then(project => {
+      response.status(201).json({id: project[0] })
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    })
 })
 
 app.delete('/projects', (request, response) => {

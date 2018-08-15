@@ -36,6 +36,7 @@ function savePallete(event) {
     projectName,
     palleteName, 
     colors: currentColors };
+
   fetch('http://localhost:3000/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify(pallete),
@@ -43,11 +44,8 @@ function savePallete(event) {
       'Content-Type': 'application/json'
     }
     }).then(response => response.json())
-      .then(result => {
-        console.log(result)
-        populateProjects(result)})
+      .then(result => populateProjects(result))
       .catch(error => console.log(error));
-
 }
 
 
@@ -59,27 +57,33 @@ function getProjects() {
 }
 
 function populateProjects(projects){
-  console.log(projects);
   $('.project-section').html('');
   projects.forEach(project => {
-    let { name, palletes } = project;
-    let article = `
-      <article class='project'>
-        <h3 class='project-name'>${name}</h3>
-        <div class='mini-pallete'>
-        ${createSmallPalletes(palletes)}
-        </div>
-      </article>
-    `
-    $('.project-section').prepend(article)
+    getPalletes(project).then( palletes => {
+      let article = `
+        <article class='project'>
+          <h3 class='project-name'>${name}</h3>
+          <div class='mini-pallete'>
+          ${createSmallPalletes(palletes)}
+          </div>
+        </article>
+      `
+      $('.project-section').prepend(article)
+    });
   })
+}
+
+function getPalletes(project) {
+  let value;
+  return fetch('http://localhost:3000/api/v1/palletes/' + project.name)
+    .then(response => response.json())
+    .then(result => result)
 }
 
 function createSmallPalletes(arr) {
   arr.reverse();
   return arr.map(pallete => {
     let {name, colors} = pallete;
-    // console.log(pallete)
     return(
       `
         <p class='small-pallete-name'>${name}</p>

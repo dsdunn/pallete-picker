@@ -5,27 +5,21 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.locals.title = 'Pallete Picker';
 app.locals.projects = [
-  {"name": "Awesome Project 1",
+  {"name": "1",
   "id": "202020",
   "palletes": 
-    [{ "name": "pallete 1",
-      "colors": ["#000", "#111", "#222", "#333", "#444"]
-    },
-    { "name": "pallete 2",
-      "colors": ["#333", "#444", "#555", "#666", "#aaa"]
-    }]
-  } 
-  ];
+    ["pallete 1", "pallete 2"]
+  }];
 
 app.locals.palletes = {
   "pallete 1" : {
     "name": "pallete 1",
-    "project": "Awesome Project 1",
+    "project": "1",
     "colors": ["#000", "#111", "#222", "#333", "#444"]
   },
   'pallete 2' : {
     "name": "pallete 2",
-    "project":  "Awesome Project 1",
+    "project":  "1",
     "colors": ["#333", "#444", "#555", "#666", "#aaa"]
   }
 }
@@ -33,6 +27,11 @@ app.locals.palletes = {
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
+
+app.get('/api/v1/palletes/:id', (request, response) => {
+  const { id } = request.params;
+  return response.status(200).json(Object.values(app.locals.palletes).filter(pallete => pallete.project === id))
+})
 
 app.get('/api/v1/projects', (request, response) => {
   return response.status(200).json(app.locals.projects);

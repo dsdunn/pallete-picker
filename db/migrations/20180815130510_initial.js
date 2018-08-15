@@ -6,8 +6,9 @@ exports.up = function(knex, Promise) {
         table.string('name');
         table.timestamps(true, true);
       }),
-    knex.schema.createTable('footnotes', function(table) {
+    knex.schema.createTable('palletes', function(table) {
       table.increments('id').primary();
+      table.string('name');
       table.string('color1');
       table.string('color2');
       table.string('color3');

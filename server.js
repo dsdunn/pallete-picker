@@ -7,27 +7,7 @@ const database = require('knex')(configuration);
 
 
 app.set('port', process.env.PORT || 3000);
-app.locals.title = 'Pallete Picker';
-// app.locals.projects = [
-//   {"name": "1",
-//   "id": "202020",
-//   "palletes": 
-//     ["pallete 1", "pallete 2"]
-//   }];
-
-// app.locals.palletes = {
-//   "pallete 1" : {
-//     "name": "pallete 1",
-//     "project": "1",
-//     "colors": ["#000", "#111", "#222", "#333", "#444"]
-//   },
-//   'pallete 2' : {
-//     "name": "pallete 2",
-//     "project":  "1",
-//     "colors": ["#333", "#444", "#555", "#666", "#aaa"]
-//   }
-// }
-
+app.locals.title = 'Palette Picker';
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
@@ -51,16 +31,21 @@ app.get('/api/v1/palletes/:id', (request, response) => {
 
 app.post('/api/v1/palletes', (request, response) => {
   const pallete = request.body;
-  if (!app.locals.palletes[pallete.name]) {  
-    app.locals.palletes[pallete.name] = pallete;
-    app.locals.projects.forEach(project => {
-      if (project.name === pallete.projectName) {
-        project.palletes = [...project.palletes, pallete.name];
-      }
-    });
+
+  for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5', 'project_id']) {
+    if (!pallete[requiredParameter]) {
+      return response.status(422).send({error: `You're missing a "${requiredParameter}" property` });
+    }
   }
-  response.status(200).json(app.locals.projects);
-})
+
+  database('palletes').insert(pallete, 'id')
+  .then(pallet => {
+    response.status(201).send('success!')
+  })
+  .catch(error => {
+    response.status(500).json({error});
+  });
+});
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
@@ -81,13 +66,13 @@ app.post('/api/v1/projects', (request, response) => {
     }
   }
   database('projects').insert(project, 'id')
-    .then(project => {
-      response.status(201).json({id: project[0] })
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    })
-})
+  .then(project => {
+    response.status(201).json({id: project[0] })
+  })
+  .catch(error => {
+    response.status(500).json({ error });
+  });
+});
 
 app.delete('/projects', (request, response) => {
   app.locals.projects = app.locals.projects.filter(project => project.id !== request.body.id)

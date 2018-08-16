@@ -40,7 +40,7 @@ app.post('/api/v1/palletes', (request, response) => {
 
   database('palletes').insert(pallete, 'id')
   .then(pallet => {
-    response.status(201).send('success!')
+    response.status(201).json(pallete)
   })
   .catch(error => {
     response.status(500).json({error});

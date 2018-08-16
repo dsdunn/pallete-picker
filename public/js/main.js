@@ -7,6 +7,7 @@ let currentColors = [];
 
 $('.generate').click(updateColors);
 $('.pallete-form').submit(savePallete);
+$('.project-form').submit(saveProject);
 
 function updateColors() {
   currentColors = [];
@@ -28,14 +29,32 @@ function generateColor() {
   return color.join('');
 }
 
+function saveProject(event) {
+  event.preventDefault();
+  const name = $('[name="project-name"]').val();
+  fetch('http://localhost:3000/api/v1/palletes', {
+    method: 'POST',
+    body: name,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
 function savePallete(event) {
   event.preventDefault();
-  let projectName = $('[name="project-select"]').val();
+  let project_id = $('#project-select').val();
   let name = $('[name="pallete-name"]').val();
   let pallete = { 
-    projectName,
+    project_id,
     name, 
-    colors: currentColors };
+    color1: currentColors[0],
+    color2: currentColors[1],
+    color3: currentColors[2],
+    color4: currentColors[3],
+    color5: currentColors[4]
+     };
+    console.log(pallete)
 
   fetch('http://localhost:3000/api/v1/palletes', {
     method: 'POST',
@@ -43,8 +62,7 @@ function savePallete(event) {
     headers: {
       'Content-Type': 'application/json'
     }
-    }).then(response => response.json())
-      .then(result => populateProjects(result))
+    }).then(() => getProjects())
       .catch(error => console.log(error));
 }
 
@@ -56,9 +74,11 @@ function getProjects() {
 }
 
 function populateProjects(projects){
-  console.log(projects)
   $('.project-section').html('');
   projects.forEach(project => {
+    $('#project-select').prepend(
+        `<option value=${project.id}>${project.name}</option>`
+      )
     getPalletes(project).then( palletes => {
       let article = `
         <article class='project'>
@@ -74,24 +94,24 @@ function populateProjects(projects){
 }
 
 function getPalletes(project) {
-  let value;
-  return fetch('http://localhost:3000/api/v1/palletes/' + project.name)
+  const { id } = project;
+  return fetch('http://localhost:3000/api/v1/palletes/' + id)
     .then(response => response.json())
     .then(result => result)
 }
 
 function createSmallPalletes(arr) {
-  arr.reverse();
+  // arr.reverse();
   return arr.map(pallete => {
-    let {name, colors} = pallete;
+    let { name, color1, color2, color3, color4, color5 } = pallete;
     return(
       `
         <p class='small-pallete-name'>${name}</p>
-        <div class='color-square-small' style='background-color:${colors[0]}'></div>
-        <div class='color-square-small' style='background-color:${colors[1]}'></div>
-        <div class='color-square-small' style='background-color:${colors[2]}'></div>
-        <div class='color-square-small' style='background-color:${colors[3]}'></div>
-        <div class='color-square-small' style='background-color:${colors[4]}'></div> 
+        <div class='color-square-small' style='background-color:${color1}'></div>
+        <div class='color-square-small' style='background-color:${color2}'></div>
+        <div class='color-square-small' style='background-color:${color3}'></div>
+        <div class='color-square-small' style='background-color:${color4}'></div>
+        <div class='color-square-small' style='background-color:${color5}'></div> 
         <img class='delete-button' src='images/delete.svg'/>
       `
     )

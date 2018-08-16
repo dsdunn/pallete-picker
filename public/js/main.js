@@ -46,7 +46,15 @@ function saveProject(event) {
   .then(result => {
     $('#project-select').prepend(`<option value=${result.id}>${name}</option>`)
     $(`option[value=${result.id}]`).prop('selected', true);
-    getProjects();
+    let article = `
+      <article class='project'>
+        <h3 class='project-name'>${name}</h3>
+        <div class='mini-pallete'>
+        no palettes yet
+        </div>
+      </article>
+    `
+    $('.project-section').prepend(article)
   })
 }
 

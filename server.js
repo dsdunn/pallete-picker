@@ -59,6 +59,7 @@ app.get('/api/v1/projects', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
+  console.log(project);
 
   for (let requiredParameter of ['name']) {
     if (!project[requiredParameter]) {
@@ -73,7 +74,7 @@ app.post('/api/v1/projects', (request, response) => {
     response.status(500).json({ error });
   });
 });
-
+  
 app.delete('/projects', (request, response) => {
   app.locals.projects = app.locals.projects.filter(project => project.id !== request.body.id)
   response.status(201).json(app.locals.projects);

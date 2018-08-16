@@ -32,12 +32,21 @@ function generateColor() {
 function saveProject(event) {
   event.preventDefault();
   const name = $('[name="project-name"]').val();
-  fetch('http://localhost:3000/api/v1/palletes', {
+  const body = {
+    name: name
+  }
+  fetch('http://localhost:3000/api/v1/projects', {
     method: 'POST',
-    body: name,
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json'
     }
+  })
+  .then(response => response.json())
+  .then(result => {
+    $('#project-select').prepend(`<option value=${result.id}>${name}</option>`)
+    $(`option[value=${result.id}]`).prop('selected', true);
+    getProjects();
   })
 }
 
@@ -53,8 +62,7 @@ function savePallete(event) {
     color3: currentColors[2],
     color4: currentColors[3],
     color5: currentColors[4]
-     };
-    console.log(pallete)
+    };
 
   fetch('http://localhost:3000/api/v1/palletes', {
     method: 'POST',
@@ -82,7 +90,7 @@ function populateProjects(projects){
     getPalletes(project).then( palletes => {
       let article = `
         <article class='project'>
-          <h3 class='project-name'>${name}</h3>
+          <h3 class='project-name'>${project.name}</h3>
           <div class='mini-pallete'>
           ${createSmallPalletes(palletes)}
           </div>

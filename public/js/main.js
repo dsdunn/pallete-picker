@@ -8,10 +8,14 @@ let currentColors = [];
 $('.generate').click(updateColors);
 $('.pallete-form').submit(savePallete);
 $('.project-form').submit(saveProject);
+$('.lock-button').click(lockColor);
 
 function updateColors() {
   currentColors = [];
   $('.color-square-big').each(function() {
+    if( $(this).hasClass('locked')){
+      return;
+    }
     let color = generateColor();
     $(this).css('background-color', color)
     $(this).find('.color-code').text(color)
@@ -27,6 +31,10 @@ function generateColor() {
     color.push(nums[index]);
   }
   return color.join('');
+}
+
+function lockColor(event) {
+  $(event.target).closest('.color-square-big').toggleClass('locked');
 }
 
 function saveProject(event) {

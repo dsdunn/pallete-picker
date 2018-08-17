@@ -9,6 +9,7 @@ $('.generate').click(updateColors);
 $('.pallete-form').submit(savePallete);
 $('.project-form').submit(saveProject);
 $('.lock-button').click(lockColor);
+$('.project-section').on('click','.delete-button',deletePallete);
 
 function updateColors() {
   currentColors = [];
@@ -34,11 +35,23 @@ function generateColor() {
 }
 
 function lockColor(event) {
+  console.log('lock')
   $(event.target).closest('.color-square-big').toggleClass('locked');
+}
+
+function deletePallete(event) {
+  const id = $(this).attr('id');
+
+  fetch(`http://localhost:3000/api/v1/palletes/${id}`, {
+    method: 'DELETE'
+  })
+
+  $(event.target).parent().remove();
 }
 
 function saveProject(event) {
   event.preventDefault();
+
   const name = $('[name="project-name"]').val();
   const body = {
     name: name
@@ -127,16 +140,18 @@ function getPalletes(project) {
 function createSmallPalletes(arr) {
   // arr.reverse();
   return arr.map(pallete => {
-    let { name, color1, color2, color3, color4, color5 } = pallete;
+    let { name, color1, color2, color3, color4, color5, id } = pallete;
     return(
       `
-        <p class='small-pallete-name'>${name}</p>
-        <div class='color-square-small' style='background-color:${color1}'></div>
-        <div class='color-square-small' style='background-color:${color2}'></div>
-        <div class='color-square-small' style='background-color:${color3}'></div>
-        <div class='color-square-small' style='background-color:${color4}'></div>
-        <div class='color-square-small' style='background-color:${color5}'></div> 
-        <img class='delete-button' src='images/delete.svg'/>
+        <div>
+          <p class='small-pallete-name'>${name}</p>
+          <div class='color-square-small' style='background-color:${color1}'></div>
+          <div class='color-square-small' style='background-color:${color2}'></div>
+          <div class='color-square-small' style='background-color:${color3}'></div>
+          <div class='color-square-small' style='background-color:${color4}'></div>
+          <div class='color-square-small' style='background-color:${color5}'></div> 
+          <img id=${id} class='delete-button' src='images/delete.svg'/>
+        </div>
       `
     )
   }).join('');

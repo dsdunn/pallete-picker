@@ -39,13 +39,21 @@ app.post('/api/v1/palletes', (request, response) => {
   }
 
   database('palletes').insert(pallete, 'id')
-  .then(pallet => {
+  .then(pallete => {
     response.status(201).json(pallete)
   })
   .catch(error => {
     response.status(500).json({error});
   });
 });
+
+app.delete('/api/v1/palletes/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('palletes').where('id', id).del()
+  .then(response.sendStatus(202))
+  .catch(error => response.status(404).json({error}));
+})
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()

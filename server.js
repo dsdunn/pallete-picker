@@ -39,13 +39,21 @@ app.post('/api/v1/palletes', (request, response) => {
   }
 
   database('palletes').insert(pallete, 'id')
-  .then(pallet => {
-    response.status(201).send('success!')
+  .then(pallete => {
+    response.status(201).json(pallete)
   })
   .catch(error => {
     response.status(500).json({error});
   });
 });
+
+app.delete('/api/v1/palletes/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('palletes').where('id', id).del()
+  .then(response.sendStatus(202))
+  .catch(error => response.status(404).json({error}));
+})
 
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
@@ -59,6 +67,7 @@ app.get('/api/v1/projects', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
+  console.log(project);
 
   for (let requiredParameter of ['name']) {
     if (!project[requiredParameter]) {
@@ -73,7 +82,7 @@ app.post('/api/v1/projects', (request, response) => {
     response.status(500).json({ error });
   });
 });
-
+  
 app.delete('/projects', (request, response) => {
   app.locals.projects = app.locals.projects.filter(project => project.id !== request.body.id)
   response.status(201).json(app.locals.projects);
@@ -83,9 +92,7 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 })
 
-
-
-
+module.exports = app;
 
 
 

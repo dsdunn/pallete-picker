@@ -7,8 +7,17 @@ chai.use(chaiHttp);
 
 describe(' GET api/v1/projects', () => {
   it('should return all projects', (done) => {  
-    (2).should.equal(2)
-    done();
+    chai.request(server)
+    .get('/api/v1/projects')
+    .end((error, res) => {
+      res.should.have.status(200);
+      res.should.be.json;
+      res.should.be.a('object');
+      res.body[0].id.should.be.a('number');
+      res.body[0].should.have.property('name');
+      res.body[0].name.should.be.a('string');
+      done();
+    })
   })
 
 });

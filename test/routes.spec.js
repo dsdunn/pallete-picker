@@ -2,10 +2,19 @@ const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server');
+const knex = require('../db/knex');
 
 chai.use(chaiHttp);
 
 describe(' GET api/v1/projects', () => {
+
+  beforeEach(done => {
+    knex.migrate.rollback()
+    .then(() => knex.migrate.latest())
+      .then(() => knex.seed.run())
+      .then(() => done())
+  })
+
   it('should return all projects', (done) => {  
     chai.request(server)
     .get('/api/v1/projects')

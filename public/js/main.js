@@ -42,7 +42,7 @@ function lockColor(event) {
 function deletePallete(event) {
   const id = $(this).attr('id');
 
-  fetch(`http://localhost:3000/api/v1/palletes/${id}`, {
+  fetch(`/api/v1/palletes/${id}`, {
     method: 'DELETE'
   })
 
@@ -56,7 +56,7 @@ function saveProject(event) {
   const body = {
     name: name
   }
-  fetch('http://localhost:3000/api/v1/projects', {
+  fetch('/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify(body),
     headers: {
@@ -93,7 +93,7 @@ function savePallete(event) {
     color5: currentColors[4]
     };
 
-  fetch('http://localhost:3000/api/v1/palletes', {
+  fetch('/api/v1/palletes', {
     method: 'POST',
     body: JSON.stringify(pallete),
     headers: {
@@ -104,7 +104,7 @@ function savePallete(event) {
 }
 
 function getProjects() {
-  fetch('http://localhost:3000/api/v1/projects')
+  fetch('/api/v1/projects')
     .then(response => response.json())
     .then(result => populateProjects(result))
     .catch(error => console.log(error));
@@ -132,7 +132,7 @@ function populateProjects(projects){
 
 function getPalletes(project) {
   const { id } = project;
-  return fetch('http://localhost:3000/api/v1/palletes/' + id)
+  return fetch('/api/v1/palletes/' + id)
     .then(response => response.json())
     .then(result => result)
 }

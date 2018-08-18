@@ -21,7 +21,7 @@ body {
 
 .jumbotron {
   margin: auto;
-  padding: 2% 5% 2% 5%;
+  padding: 2% 8% 2% 8%;
   align-items: center;
 }
 
@@ -63,12 +63,6 @@ body {
   width: 4em;
 }
 
-.controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .generate {
   width: 30%;
   padding: 1%;
@@ -81,9 +75,25 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 3%;
-
 }
 
-.pallete-form {
-  margin: 3%;
+.controls {
+  display: flex;
+  justify-content: space-around;
+  padding: 2%;
+  background: rgba(56,56,56,1);
+  font-size: 1.3em;
+}
+
+.controls input {
+  margin: 2% auto;
+}
+
+.controls select {
+  color:rgb(255, 251, 232, 0.9);
+  background: rgba(56,56,56,1);
+}
+
+.project-form label {
+  color:rgb(255, 251, 232, 0.9)
 }

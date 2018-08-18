@@ -18,7 +18,7 @@ function updateColors() {
       return;
     }
     let color = generateColor();
-    $(this).css('background-color', color)
+    $(this).css('background', `linear-gradient(${color} 80%, #fff)`)
     $(this).find('.color-code').text(color)
     currentColors.push(color);
   })
@@ -44,8 +44,12 @@ function generateColor() {
 }
 
 function lockColor(event) {
-  console.log('lock')
-  $(event.target).closest('.color-square-big').toggleClass('locked');
+  const color = $(event.target).closest('.color-square-big')
+
+  color.toggleClass('locked');
+  const icon = color.hasClass('locked') ? '../images/lock.svg' : '../images/lock-open.svg';
+
+  $(event.target).attr('src', icon);
 }
 
 function deletePallete(event) {

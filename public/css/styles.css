@@ -12,6 +12,8 @@ body {
   margin-bottom: 1%;
   text-align: center;
   font-family: 'Sawarabi Mincho', sans-serif;
+  font-size: 2.3em;
+  background-color: rgba(256, 256, 256, 0.4)
 }
 
 .jumbotron {
@@ -31,10 +33,29 @@ body {
 }
 
 .color-square-big {
-  display: inline-block;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   width: 20%;
   height: 40vh;
+}
+
+.color-info {
+  display: inline-block;
+  text-align: center;
+}
+
+.lock-button {
+  height: 30px;
+}
+
+.locked .lock-button {
+  height: 40px;
+}
+
+.color-code {
+  margin: 5%;
+  font-size: 1.3em;
 }
 
 .color-square-small {
@@ -51,8 +72,10 @@ body {
 }
 
 .generate {
-  width: 25%;
-  height: 4vh;
+  width: 30%;
+  padding: 1%;
+  background-color: rgba(256, 256, 256, 0.4);
+  font-size: 1.2em;
 }
 
 .generate-container {

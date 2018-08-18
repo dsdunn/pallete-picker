@@ -18,7 +18,7 @@ function updateColors() {
       return;
     }
     let color = generateColor();
-    $(this).css('background', `linear-gradient(${color} 80%, #fff)`)
+    $(this).css('background', `linear-gradient(${color} 78%, #fffbe8)`)
     $(this).find('.color-code').text(color)
     currentColors.push(color);
   })

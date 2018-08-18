@@ -4,27 +4,25 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  background: #fffbe8;
+  color: #38270d;
 }
 
 .title {
-  width: 50%;
   margin: auto;
   margin-bottom: 1%;
   text-align: center;
   font-family: 'Sawarabi Mincho', sans-serif;
   font-size: 2.3em;
-  background-color: rgba(256, 256, 256, 0.4)
+  text-shadow: #fffbe8 1px 1px;
+  background-color: rgb(255, 251, 232, 0.5);
+  box-shadow: 0px 2px 54px 3px rgba(56,56,56,1);
 }
 
 .jumbotron {
   margin: auto;
   padding: 2% 5% 2% 5%;
   align-items: center;
-}
-
-.jumbotron::before {
-  opacity: 0.3;
-  z-index: 1;
 }
 
 .current-pallete {
@@ -74,7 +72,8 @@ body {
 .generate {
   width: 30%;
   padding: 1%;
-  background-color: rgba(256, 256, 256, 0.4);
+  color:rgb(255, 251, 232, 0.9);
+  background-color: rgba(56,56,56,1);
   font-size: 1.2em;
 }
 

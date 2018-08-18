@@ -22,6 +22,15 @@ function updateColors() {
     $(this).find('.color-code').text(color)
     currentColors.push(color);
   })
+  updateBackground();
+}
+
+function updateBackground() {
+  const background = `
+    linear-gradient(to right, ${currentColors[0]},${currentColors[1]} 35%,${currentColors[2]} 55%,${currentColors[3]} 65%,${currentColors[4]} 85%) 
+  `;
+
+  $('.jumbotron').css('background-image', background);
 }
 
 function generateColor() {

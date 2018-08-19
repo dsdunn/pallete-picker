@@ -19,7 +19,7 @@ app.get('/api/v1/palletes/:id', (request, response) => {
       response.status(200).json(palletes);
     } else {
       response.status(404).json({
-        error: `Could not find palette with id ${id}`
+        error: `No palette with project-id ${id}`
       });
     }
   })
@@ -30,7 +30,6 @@ app.get('/api/v1/palletes/:id', (request, response) => {
 
 app.post('/api/v1/palletes', (request, response) => {
   const pallete = request.body;
-
   for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5', 'project_id']) {
     if (!pallete[requiredParameter]) {
       return response.status(422).send({error: `You're missing a "${requiredParameter}" property` });
@@ -38,8 +37,8 @@ app.post('/api/v1/palletes', (request, response) => {
   }
 
   database('palletes').insert(pallete, 'id')
-  .then(pallete => {
-    response.status(201).json(pallete)
+  .then(id => {
+    response.status(201).json(id[0])
   })
   .catch(error => {
     response.status(500).json({error});
@@ -66,7 +65,6 @@ app.get('/api/v1/projects', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
-  console.log(project);
 
   for (let requiredParameter of ['name']) {
     if (!project[requiredParameter]) {
@@ -81,11 +79,6 @@ app.post('/api/v1/projects', (request, response) => {
     response.status(500).json({ error });
   });
 });
-  
-app.delete('/projects', (request, response) => {
-  app.locals.projects = app.locals.projects.filter(project => project.id !== request.body.id)
-  response.status(201).json(app.locals.projects);
-})
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);

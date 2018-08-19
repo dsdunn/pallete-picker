@@ -4,12 +4,10 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background: #fffbe8;
-  color: #38270d;
+  background: rgba(56,56,56,1);
 }
 
 .title {
-  margin: auto;
   margin-bottom: 1%;
   text-align: center;
   font-family: 'Sawarabi Mincho', sans-serif;
@@ -35,7 +33,7 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   width: 20%;
-  height: 40vh;
+  height: 44vh;
 }
 
 .color-info {
@@ -67,7 +65,7 @@ body {
   width: 30%;
   padding: 1%;
   color:rgb(255, 251, 232, 0.9);
-  background-color: rgba(56,56,56,1);
+  background-color: rgba(56,56,56,0.8);
   font-size: 1.2em;
 }
 
@@ -81,12 +79,8 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 2%;
-  background: rgba(56,56,56,1);
+  border-bottom: 1px solid rgb(255, 251, 232, 0.9);
   font-size: 1.3em;
-}
-
-.controls input {
-  margin: 2% auto;
 }
 
 .controls select {
@@ -94,6 +88,75 @@ body {
   background: rgba(56,56,56,1);
 }
 
-.project-form label {
-  color:rgb(255, 251, 232, 0.9)
+.controls input {
+  color: rgba(56,56,56,1);
 }
+
+.controls button {
+  color: rgb(56, 56, 56);
+}
+
+.block {
+  display: block;
+  margin-bottom: 3%;
+}
+
+.project-form label {
+  color:rgb(255, 251, 232, 0.9);
+}
+
+.main {
+  color:rgb(255, 251, 232, 0.9);
+  background: rgb(56,56,56);
+}
+
+.project-section {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.project {
+  margin: 2%;
+  padding: 4%;
+}
+
+.project-name {
+  margin: auto auto 2px 5%;
+  font-size: 1.6em;
+  font-family:'Sawarabi Mincho';
+}
+
+.mini-pallete {
+  margin-bottom: 4%;
+}
+
+.mini-row{
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2% auto 0 auto;
+}
+
+.small-pallete-name {
+  font-size: 1.1em;
+  text-align: right;
+  text-transform: uppercase;
+  margin: auto 5% 0 auto;
+}
+
+.delete-button {
+  display: inline-block;
+  top: -10%;
+  padding: 1%;
+}
+
+
+
+
+
+
+
+
+
+
+
+

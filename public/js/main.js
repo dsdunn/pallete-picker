@@ -59,7 +59,7 @@ function deletePallete(event) {
     method: 'DELETE'
   })
 
-  $(event.target).parent().remove();
+  $(event.target).closest('.mini-pallete').remove();
 }
 
 function saveProject(event) {
@@ -84,7 +84,7 @@ function saveProject(event) {
       <article class='project'>
         <h3 class='project-name'>${name}</h3>
         <div class='mini-pallete'>
-        no palettes yet
+        no palletes yet
         </div>
       </article>
     `
@@ -133,9 +133,7 @@ function populateProjects(projects){
       let article = `
         <article class='project'>
           <h3 class='project-name'>${project.name}</h3>
-          <div class='mini-pallete'>
           ${createSmallPalletes(palletes)}
-          </div>
         </article>
       `
       $('.project-section').prepend(article)
@@ -156,14 +154,18 @@ function createSmallPalletes(arr) {
     let { name, color1, color2, color3, color4, color5, id } = pallete;
     return(
       `
-        <div>
+        <div class='mini-pallete'>
           <p class='small-pallete-name'>${name}</p>
-          <div class='color-square-small' style='background-color:${color1}'></div>
-          <div class='color-square-small' style='background-color:${color2}'></div>
-          <div class='color-square-small' style='background-color:${color3}'></div>
-          <div class='color-square-small' style='background-color:${color4}'></div>
-          <div class='color-square-small' style='background-color:${color5}'></div> 
-          <img id=${id} class='delete-button' src='images/delete.svg'/>
+          <div class='mini-row'>
+            <img id=${id} class='delete-button' src='images/delete.svg'/>
+            <div class='mini-colors'>
+              <div class='color-square-small' style='background-color:${color1}'></div>
+              <div class='color-square-small' style='background-color:${color2}'></div>
+              <div class='color-square-small' style='background-color:${color3}'></div>
+              <div class='color-square-small' style='background-color:${color4}'></div>
+              <div class='color-square-small' style='background-color:${color5}'></div>
+            </div> 
+          </div>
         </div>
       `
     )

@@ -10,6 +10,20 @@ $('.pallete-form').submit(savePallete);
 $('.project-form').submit(saveProject);
 $('.lock-button').click(lockColor);
 $('.project-section').on('click','.delete-button',deletePallete);
+$('.project-section').on('click', '.mini-colors', displayPallete);
+
+function displayPallete() {
+  let arr = [];
+
+  $('.color-square-small').each(function(i) {
+    let color = $(this).css('background-color');
+    console.log(color)
+    arr.push(color);
+  })
+    // element.css('background', `linear-gradient(${color} 78%, #fffbe8)`)
+    // element.find('.color-code').text(color)
+  })
+}
 
 function updateColors() {
   currentColors = [];
@@ -69,6 +83,15 @@ function saveProject(event) {
   const body = {
     name: name
   }
+  let selector = `.${name}`;
+  let alert = $('.name-alert');
+
+  alert.attr('hidden',true);
+  if ($(selector).length) {
+    alert.attr('hidden', false);
+    return;
+  }
+
   fetch('/api/v1/projects', {
     method: 'POST',
     body: JSON.stringify(body),
@@ -82,7 +105,7 @@ function saveProject(event) {
     $(`option[value=${result.id}]`).prop('selected', true);
     let article = `
       <article class='project'>
-        <h3 class='project-name'>${name}</h3>
+        <h3 class='project-name ${name}'>${name}</h3>
         <div class='mini-pallete'>
         no palletes yet
         </div>
@@ -159,11 +182,11 @@ function createSmallPalletes(arr) {
           <div class='mini-row'>
             <img id=${id} class='delete-button' src='images/delete.svg'/>
             <div class='mini-colors'>
-              <div class='color-square-small' style='background-color:${color1}'></div>
-              <div class='color-square-small' style='background-color:${color2}'></div>
-              <div class='color-square-small' style='background-color:${color3}'></div>
-              <div class='color-square-small' style='background-color:${color4}'></div>
-              <div class='color-square-small' style='background-color:${color5}'></div>
+              <div class='color-square-small id=${color1}' style='background-color:${color1}'></div>
+              <div class='color-square-small id=${color2}' style='background-color:${color2}'></div>
+              <div class='color-square-small id=${color3}' style='background-color:${color3}'></div>
+              <div class='color-square-small id=${color4}' style='background-color:${color4}'></div>
+              <div class='color-square-small id=${color5}' style='background-color:${color5}'></div>
             </div> 
           </div>
         </div>

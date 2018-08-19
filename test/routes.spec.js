@@ -159,6 +159,9 @@ describe(' API routes', () => {
     it('should delete a palette by id', done => {
       chai.request(server)
       .delete('/api/v1/palletes/1')
+      .send({
+        method: 'DELETE'
+      })
       .end((error, res) => {
         res.should.have.status(202);
         done();

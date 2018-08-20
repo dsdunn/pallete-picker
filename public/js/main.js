@@ -14,9 +14,10 @@ $('.project-section').on('click', '.mini-colors', displaypalette);
 
 function displaypalette() {
   let arr = [];
+
+  $('.locked').removeClass('locked');
   $(this).children().each(function(i) {
     let color = $(this).css('background-color');
-    console.log(color)
     arr.push(color);
   })
   updateColors(arr);
@@ -85,12 +86,12 @@ function saveProject(event) {
   const body = {
     name: name
   }
-  let selector = `.${name}`;
+  let noSpaceName = name.replace(/\s/g, '');
+  let selector = `.${noSpaceName}`;
   let alert = $('.name-alert');
 
   alert.attr('hidden',true);
   if ($(selector).length) {
-    console.log('alert')
     alert.attr('hidden', false);
     return;
   }
@@ -106,9 +107,10 @@ function saveProject(event) {
   .then(result => {
     $('#project-select').prepend(`<option value=${result.id}>${name}</option>`)
     $(`option[value=${result.id}]`).prop('selected', true);
+    let noSpaceName = name.replace(/\s/g, '');
     let article = `
       <article class='project'>
-        <h3 class='project-name ${name}'>${name}</h3>
+        <h3 class='project-name ${noSpaceName}'>${name}</h3>
         <div class='mini-palette'>
         no palettes yet
         </div>
@@ -158,7 +160,7 @@ function populateProjects(projects){
     getpalettes(project).then( palettes => {
       let article = `
         <article class='project'>
-          <h3 class='project-name ${project.name}'>${project.name}</h3>
+          <h3 class='project-name ${project.name.replace(/\s/g, '_')}'>${project.name}</h3>
           ${createSmallpalettes(palettes)}
         </article>
       `

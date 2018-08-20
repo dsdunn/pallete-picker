@@ -12,6 +12,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
+app.locals.title = 'Palette Picker';
 
 //define endpoint for getting palettes by project id
 app.get('/api/v1/palettes/:id', (request, response) => {

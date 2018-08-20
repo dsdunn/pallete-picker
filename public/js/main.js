@@ -81,14 +81,13 @@ function deletepalette(event) {
 
 function saveProject(event) {
   event.preventDefault();
-
   const name = $('[name="project-name"]').val();
   const body = {
     name: name
   }
-  let noSpaceName = name.replace(/\s/g, '');
-  let selector = `.${noSpaceName}`;
-  let alert = $('.name-alert');
+  const noSpaceName = name.replace(/\s/g, '');
+  const selector = `.${noSpaceName}`;
+  const alert = $('.name-alert');
 
   alert.attr('hidden',true);
   if ($(selector).length) {
@@ -122,9 +121,9 @@ function saveProject(event) {
 
 function savepalette(event) {
   event.preventDefault();
-  let project_id = $('#project-select').val();
-  let name = $('[name="palette-name"]').val();
-  let palette = { 
+  const project_id = $('#project-select').val();
+  const name = $('[name="palette-name"]').val();
+  const palette = { 
     project_id,
     name, 
     color1: currentColors[0],
@@ -177,7 +176,6 @@ function getpalettes(project) {
 }
 
 function createSmallpalettes(arr) {
-  // arr.reverse();
   return arr.map(palette => {
     let { name, color1, color2, color3, color4, color5, id } = palette;
     return(

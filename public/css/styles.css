@@ -151,7 +151,9 @@ body {
   padding: 1%;
 }
 
-
+.delete-button:hover {
+  cursor: pointer;
+}
 
 
 

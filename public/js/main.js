@@ -152,6 +152,7 @@ function getProjects() {
 
 function populateProjects(projects){
   $('.project-section').html('');
+  $('#project-select').html('');
   projects.forEach(project => {
     $('#project-select').prepend(
         `<option value=${project.id}>${project.name}</option>`

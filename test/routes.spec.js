@@ -84,11 +84,11 @@ describe(' API routes', () => {
 
   })
 
-  describe('GET api/v1/palletes/:id', () => {
+  describe('GET api/v1/palettes/:id', () => {
 
     it('should return a palette with the correct id', done => {
       chai.request(server)
-      .get('/api/v1/palletes/1')
+      .get('/api/v1/palettes/1')
       .end((error, res) => {
         res.should.have.status(200);
         res.should.be.json;
@@ -101,7 +101,7 @@ describe(' API routes', () => {
 
     it('should return an error if id doesn\'t exist', done => {
       chai.request(server)
-      .get('/api/v1/palletes/8')
+      .get('/api/v1/palettes/8')
       .end((error, res) => {
         res.should.have.status(404);
         res.should.be.json;
@@ -112,10 +112,10 @@ describe(' API routes', () => {
     })
   })
 
-  describe('POST api/v1/palletes', () => {
+  describe('POST api/v1/palettes', () => {
     it('should return a palette object on success', done => {
       chai.request(server)
-      .post('/api/v1/palletes')
+      .post('/api/v1/palettes')
       .send({
         'name': 'sweet',
         'color1': '#000',
@@ -136,7 +136,7 @@ describe(' API routes', () => {
 
     it('should return an error if required params are missing', done => {
       chai.request(server)
-      .post('/api/v1/palletes')
+      .post('/api/v1/palettes')
       .send({
         'name': 'sweet',
         'color1': '#000',
@@ -155,10 +155,10 @@ describe(' API routes', () => {
     })
   })
 
-  describe('DELETE /api/v1/palletes/:id', () => {
+  describe('DELETE /api/v1/palettes/:id', () => {
     it('should delete a palette by id', done => {
       chai.request(server)
-      .delete('/api/v1/palletes/1')
+      .delete('/api/v1/palettes/1')
       .send({
         method: 'DELETE'
       })

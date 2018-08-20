@@ -6,13 +6,13 @@ $().ready(() => {
 let currentColors = [];
 
 $('.generate').click(updateColors);
-$('.pallete-form').submit(savePallete);
+$('.palette-form').submit(savepalette);
 $('.project-form').submit(saveProject);
 $('.lock-button').click(lockColor);
-$('.project-section').on('click','.delete-button',deletePallete);
-$('.project-section').on('click', '.mini-colors', displayPallete);
+$('.project-section').on('click','.delete-button',deletepalette);
+$('.project-section').on('click', '.mini-colors', displaypalette);
 
-function displayPallete() {
+function displaypalette() {
   let arr = [];
   $(this).children().each(function(i) {
     let color = $(this).css('background-color');
@@ -23,7 +23,6 @@ function displayPallete() {
 }
 
 function updateColors(colors = []) {
-  console.log(colors)
   currentColors = [];
   $('.color-square-big').each(function(i) {
     if( $(this).hasClass('locked')){
@@ -35,7 +34,6 @@ function updateColors(colors = []) {
     } else { 
       color = generateColor() 
     }
-  // console.log(color)
     $(this).css('background', `linear-gradient(${color} 78%, #fffbe8)`)
     $(this).find('.color-code').text(color)
     currentColors.push(color);
@@ -70,14 +68,14 @@ function lockColor(event) {
   $(event.target).attr('src', icon);
 }
 
-function deletePallete(event) {
+function deletepalette(event) {
   const id = $(this).attr('id');
 
-  fetch(`/api/v1/palletes/${id}`, {
+  fetch(`/api/v1/palettes/${id}`, {
     method: 'DELETE'
   })
 
-  $(event.target).closest('.mini-pallete').remove();
+  $(event.target).closest('.mini-palette').remove();
 }
 
 function saveProject(event) {
@@ -92,6 +90,7 @@ function saveProject(event) {
 
   alert.attr('hidden',true);
   if ($(selector).length) {
+    console.log('alert')
     alert.attr('hidden', false);
     return;
   }
@@ -110,8 +109,8 @@ function saveProject(event) {
     let article = `
       <article class='project'>
         <h3 class='project-name ${name}'>${name}</h3>
-        <div class='mini-pallete'>
-        no palletes yet
+        <div class='mini-palette'>
+        no palettes yet
         </div>
       </article>
     `
@@ -119,11 +118,11 @@ function saveProject(event) {
   })
 }
 
-function savePallete(event) {
+function savepalette(event) {
   event.preventDefault();
   let project_id = $('#project-select').val();
-  let name = $('[name="pallete-name"]').val();
-  let pallete = { 
+  let name = $('[name="palette-name"]').val();
+  let palette = { 
     project_id,
     name, 
     color1: currentColors[0],
@@ -133,9 +132,9 @@ function savePallete(event) {
     color5: currentColors[4]
     };
 
-  fetch('/api/v1/palletes', {
+  fetch('/api/v1/palettes', {
     method: 'POST',
-    body: JSON.stringify(pallete),
+    body: JSON.stringify(palette),
     headers: {
       'Content-Type': 'application/json'
     }
@@ -156,11 +155,11 @@ function populateProjects(projects){
     $('#project-select').prepend(
         `<option value=${project.id}>${project.name}</option>`
       )
-    getPalletes(project).then( palletes => {
+    getpalettes(project).then( palettes => {
       let article = `
         <article class='project'>
-          <h3 class='project-name'>${project.name}</h3>
-          ${createSmallPalletes(palletes)}
+          <h3 class='project-name ${project.name}'>${project.name}</h3>
+          ${createSmallpalettes(palettes)}
         </article>
       `
       $('.project-section').prepend(article)
@@ -168,21 +167,21 @@ function populateProjects(projects){
   })
 }
 
-function getPalletes(project) {
+function getpalettes(project) {
   const { id } = project;
-  return fetch('/api/v1/palletes/' + id)
+  return fetch('/api/v1/palettes/' + id)
     .then(response => response.json())
     .then(result => result)
 }
 
-function createSmallPalletes(arr) {
+function createSmallpalettes(arr) {
   // arr.reverse();
-  return arr.map(pallete => {
-    let { name, color1, color2, color3, color4, color5, id } = pallete;
+  return arr.map(palette => {
+    let { name, color1, color2, color3, color4, color5, id } = palette;
     return(
       `
-        <div class='mini-pallete'>
-          <p class='small-pallete-name'>${name}</p>
+        <div class='mini-palette'>
+          <p class='small-palette-name'>${name}</p>
           <div class='mini-row'>
             <img id=${id} class='delete-button' src='images/delete.svg'/>
             <div class='mini-colors'>

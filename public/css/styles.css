@@ -24,7 +24,7 @@ body {
   align-items: center;
 }
 
-.current-pallete {
+.current-palette {
   display:flex;
   box-shadow: 0px 2px 54px 3px rgba(56,56,56,1);
 }
@@ -128,7 +128,7 @@ body {
   font-family:'Sawarabi Mincho';
 }
 
-.mini-pallete {
+.mini-palette {
   margin-bottom: 4%;
 }
 
@@ -139,7 +139,7 @@ body {
   white-space: nowrap;
 }
 
-.small-pallete-name {
+.small-palette-name {
   text-align: right;
   text-transform: uppercase;
   margin: auto 5% 0 auto;

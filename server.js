@@ -11,12 +11,12 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
 
-app.get('/api/v1/palletes/:id', (request, response) => {
+app.get('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
-  database('palletes').where('project_id', id).select()
-  .then(palletes => {
-    if(palletes.length) {
-      response.status(200).json(palletes);
+  database('palettes').where('project_id', id).select()
+  .then(palettes => {
+    if(palettes.length) {
+      response.status(200).json(palettes);
     } else {
       response.status(404).json({
         error: `No palette with project-id ${id}`
@@ -28,15 +28,15 @@ app.get('/api/v1/palletes/:id', (request, response) => {
   })
 });
 
-app.post('/api/v1/palletes', (request, response) => {
-  const pallete = request.body;
+app.post('/api/v1/palettes', (request, response) => {
+  const palette = request.body;
   for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5', 'project_id']) {
-    if (!pallete[requiredParameter]) {
+    if (!palette[requiredParameter]) {
       return response.status(422).send({error: `You're missing a "${requiredParameter}" property` });
     }
   }
 
-  database('palletes').insert(pallete, 'id')
+  database('palettes').insert(palette, 'id')
   .then(id => {
     response.status(201).json(id[0])
   })
@@ -45,10 +45,10 @@ app.post('/api/v1/palletes', (request, response) => {
   });
 });
 
-app.delete('/api/v1/palletes/:id', (request, response) => {
+app.delete('/api/v1/palettes/:id', (request, response) => {
   const { id } = request.params;
 
-  database('palletes').where('id', id).del()
+  database('palettes').where('id', id).del()
   .then(response.sendStatus(202))
   .catch(error => response.status(404).json({error}));
 })

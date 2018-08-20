@@ -14,24 +14,28 @@ $('.project-section').on('click', '.mini-colors', displayPallete);
 
 function displayPallete() {
   let arr = [];
-
-  $('.color-square-small').each(function(i) {
+  $(this).children().each(function(i) {
     let color = $(this).css('background-color');
     console.log(color)
     arr.push(color);
   })
-    // element.css('background', `linear-gradient(${color} 78%, #fffbe8)`)
-    // element.find('.color-code').text(color)
-  })
+  updateColors(arr);
 }
 
-function updateColors() {
+function updateColors(colors = []) {
+  console.log(colors)
   currentColors = [];
-  $('.color-square-big').each(function() {
+  $('.color-square-big').each(function(i) {
     if( $(this).hasClass('locked')){
       return;
     }
-    let color = generateColor();
+    let color;
+    if(colors.length) {
+     color =  colors[i] 
+    } else { 
+      color = generateColor() 
+    }
+  // console.log(color)
     $(this).css('background', `linear-gradient(${color} 78%, #fffbe8)`)
     $(this).find('.color-code').text(color)
     currentColors.push(color);

@@ -1,6 +1,6 @@
 # Palette Picker
 
-This app allows users to search for events in a given area and see details about the events, as well as locations on a map. Powered by the eventful api and google maps / geolocation, this project was completed in two weeks for review as part of the front end curriculum at Turing School of Software and Design in Denver, Co. The concept, architecture, and design are my own.
+Palette Picker generates and saves color palettes by project.
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ npm test
 
 * **David Starr Dunn** - *Initial work* - [@dsdunn](https://github.com/dsdunn)
 
-
-![top](./palette-picker1.png)
 ![bottom](./palette-picker2.png)
+![top](./palette-picker1.png)
+
 

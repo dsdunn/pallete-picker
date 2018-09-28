@@ -1,6 +1,6 @@
 # Palette Picker
 
-Palette Picker generates and saves color palettes by project.
+Palette Picker generates and saves color palettes by project. This project served as a refresher in vanilla JS, JQuery, and CSS in module 4 of the Turing School of Software and Design front-end curriculum. Challenges for me included designing a clean and attractive layout, while maintaining solid, reliable functionality.
 
 ## Getting Started
 

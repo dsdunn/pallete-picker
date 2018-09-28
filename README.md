@@ -35,6 +35,6 @@ npm test
 * **David Starr Dunn** - *Initial work* - [@dsdunn](https://github.com/dsdunn)
 
 
-![top](./palette-picker1)
-![bottom](./palette-picker2)
+![top](./palette-picker1.png)
+![bottom](./palette-picker2.png)
 
